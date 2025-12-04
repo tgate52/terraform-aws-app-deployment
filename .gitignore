@@ -1,0 +1,17 @@
+# Ignore all Terraform variable files (prevent secrets like AWS keys)
+*.tfvars
+*.tfvars.json
+terraform.tfvars
+infra/terraform.tfvars
+
+# Ignore Terraform state files (never store in Git)
+*.tfstate
+*.tfstate.backup
+
+# Ignore local Terraform working directory
+.terraform/
+.terraform.lock.hcl
+
+# Ignore crash logs
+crash.log
+crash.*.log
