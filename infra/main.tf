@@ -51,7 +51,7 @@ module "ec2" {
   project_name      = var.project_name
   ami_id            = var.ami_id
   instance_type     = var.instance_type
-  private_subnet_id = module.vpc.private_subnet_ids[0]
+  private_subnet_id = module.vpc.public_subnet_ids[0]
   ec2_sg_id         = module.security_groups.ec2_sg_id
 
   ecr_url = module.ecr.repository_url

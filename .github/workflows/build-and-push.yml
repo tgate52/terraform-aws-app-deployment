@@ -1,0 +1,45 @@
+name: Build and Push to ECR
+
+on:
+  push:
+    branches:
+      - main
+      - feature/terraform-aws-infra
+
+jobs:
+  build:
+    name: Build Docker image and push to ECR
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Configure AWS credentials
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      # Login to ECR
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      # Build and tag the Docker image
+      - name: Build Docker image
+        run: |
+          IMAGE_URI="${{ steps.login-ecr.outputs.registry }}/${{ env.REPO_NAME }}:latest"
+          docker build -t $IMAGE_URI .
+
+      # Push the image
+      - name: Push to ECR
+        run: |
+          IMAGE_URI="${{ steps.login-ecr.outputs.registry }}/${{ env.REPO_NAME }}:latest"
+          docker push $IMAGE_URI
+
+    env:
+      REPO_NAME: terraform-aws-app-repo

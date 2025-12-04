@@ -80,7 +80,7 @@ resource "aws_instance" "this" {
   subnet_id                   = var.private_subnet_id
   vpc_security_group_ids      = [var.ec2_sg_id]
   iam_instance_profile        = aws_iam_instance_profile.this.name
-  associate_public_ip_address = false  # private subnet only
+  associate_public_ip_address = true  
 
   user_data = base64encode(templatefile("${path.module}/user_data.sh.tpl", {
     ecr_url        = var.ecr_url
