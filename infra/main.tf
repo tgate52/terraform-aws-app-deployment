@@ -35,6 +35,14 @@ module "security_groups" {
 }
 
 #######################
+# ECR MODULE
+#######################
+module "ecr" {
+  source          = "./modules/ecr"
+  repository_name = "${var.project_name}-repo"
+}
+
+#######################
 # EC2 MODULE
 #######################
 module "ec2" {
@@ -46,7 +54,7 @@ module "ec2" {
   private_subnet_id = module.vpc.private_subnet_ids[0]
   ec2_sg_id         = module.security_groups.ec2_sg_id
 
-  ecr_url        = var.ecr_url
+  ecr_url = module.ecr.repository_url
   container_name = var.container_name
 }
 
