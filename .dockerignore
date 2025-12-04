@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+.git
+.github
+.gitignore
+terraform/
+infra/
+modules/
+*.tfstate
+*.tfstate.backup
